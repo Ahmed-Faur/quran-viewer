@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quran Page Viewer</title>
+    <style>
+      body {
+        background: #111;
+        color: #fff;
+        text-align: center;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      img {
+        width: 90%;
+        max-width: 700px;
+        border: 2px solid #555;
+        margin-top: 20px;
+      }
+      .controls {
+        margin-top: 20px;
+      }
+      input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        text-align: center;
+        font-size: 1.2em;
+      }
+      button {
+        padding: 10px 15px;
+        margin: 5px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Quran Page Viewer</h1>
+
+    <div class="controls">
+      <button onclick="nextPage()">◀ Next</button>
+      <input
+        type="number"
+        id="pageInput"
+        min="1"
+        max="604"
+        value="1"
+        onchange="goToPage()"
+      />
+      <button onclick="prevPage()">Prev ▶</button>
+    </div>
+
+    <div>
+      <img id="quranImage" src="" alt="Quran Page" />
+    </div>
+
+    <script>
+      const imageBase = "https://surahquran.com/img/pages-quran/page";
+      let currentPage = 1;
+
+      function formatPageNumber(page) {
+        return page.toString().padStart(3, "0"); // makes 1 => 001
+      }
+
+      function updateImage() {
+        const formatted = formatPageNumber(currentPage);
+        document.getElementById(
+          "quranImage"
+        ).src = `${imageBase}${formatted}.png`;
+        document.getElementById("pageInput").value = currentPage;
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          updateImage();
+        }
+      }
+
+      function nextPage() {
+        if (currentPage < 604) {
+          currentPage++;
+          updateImage();
+        }
+      }
+
+      function goToPage() {
+        let page = parseInt(document.getElementById("pageInput").value);
+        if (page >= 1 && page <= 604) {
+          currentPage = page;
+          updateImage();
+        } else {
+          alert("Page number must be between 1 and 604");
+        }
+      }
+
+      // Load initial page
+      updateImage();
+    </script>
+  </body>
+</html>
